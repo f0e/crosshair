@@ -1,7 +1,9 @@
-const vars = {};
-const canvas = document.querySelector('#c');
 const canvasSize = [3840, 2160]; // 4k
+
+const canvas = document.querySelector('#c');
 canvas.imageSmoothingEnabled = false;
+
+let vars = {};
 
 class Control {
   updateValue() {}
@@ -244,21 +246,12 @@ function render() {
 }
 
 function save() {
-  for (const [name, value] of Object.entries(vars)) {
-    if (value) {
-      localStorage.setItem(name, JSON.stringify(value));
-    }
-  }
+  localStorage.setItem('crosshair-vars', JSON.stringify(vars));
 }
 
 function load() {
-  for (let i = 0; i < localStorage.length; i++) {
-    const name = localStorage.key(i);
-    const value = localStorage.getItem(name);
-    if (value) {
-      vars[name] = JSON.parse(value);
-    }
-  }
+  const jsonData = localStorage.getItem('crosshair-vars');
+  if (jsonData) vars = JSON.parse(jsonData);
 }
 
 load();
