@@ -174,10 +174,11 @@ function zoom() {
 
   const height =
     goalHeight * (vars['zoom'] * (window.innerHeight / goalHeight)) - padding;
-  canvas.style.width = `${(height / 9) * 16}`;
+  canvas.style.width = `${(height / 9) * 16}px`;
   canvas.style.height = `${height}px`;
 
   const [x, y] = vars['aspect ratio'].split(':');
+  console.log(x, y);
   canvas.width = (canvasSize[1] / y) * x;
   canvas.height = canvasSize[1];
 
