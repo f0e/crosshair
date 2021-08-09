@@ -1,0 +1,51 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Tahoma;
+  font-weight: bold;
+  font-size: 10pt;
+}
+
+#controls {
+  display: inline;
+
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  border: 1px solid #000;
+
+  z-index: 99;
+  transform: translateX(-50%);
+}
+
+#controls > div:not(:last-child) {
+  margin-bottom: 0.2rem;
+}
+
+#controls label {
+  display: inline-block;
+  text-align: right;
+  width: 5rem;
+  margin-right: 0.3rem;
+}
+
+#c {
+  position: fixed;
+
+  background-image: url('/background.jpg');
+  background-position: center;
+
+  top: 50%;
+  left: 50%;
+
+  image-rendering: pixelated;
+
+  transform: translate(-50%, -50%);
+}
