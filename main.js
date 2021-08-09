@@ -107,24 +107,23 @@ class Control {
         break;
       }
       case 'colour': {
-        const input = document.createElement('input');
-        input.id = this.name;
-        input.value = this.getValue();
-        input.setAttribute('data-jscolor', '');
-        container.appendChild(input);
+        const colour = document.createElement('button');
+        colour.id = this.name;
+        colour.setAttribute('data-jscolor', `{ value: '${this.getValue()}' }`);
+        container.appendChild(colour);
 
         const label = document.createElement('label');
-        label.htmlFor = input.id;
+        label.htmlFor = colour.id;
         label.textContent = this.name;
-        container.insertBefore(label, input);
+        container.insertBefore(label, colour);
 
         // update variables
         const updateValue = () => {
-          this.setValue(input.value);
+          this.setValue(colour.value);
         };
 
-        input.addEventListener('change', updateValue);
-        input.addEventListener('input', updateValue);
+        colour.addEventListener('change', updateValue);
+        colour.addEventListener('input', updateValue);
         updateValue();
 
         break;

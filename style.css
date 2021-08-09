@@ -19,7 +19,7 @@ body {
 
   background-color: #fff;
   padding: 0.5rem 1rem;
-  border: 1px solid #000;
+  border: 2px solid #000;
 
   z-index: 99;
   transform: translateX(-50%);
@@ -34,6 +34,12 @@ body {
   text-align: right;
   width: 5rem;
   margin-right: 0.3rem;
+}
+
+.jscolor {
+  border: none;
+  cursor: pointer;
+  border: 1px solid rgb(83, 83, 83);
 }
 
 #c {
