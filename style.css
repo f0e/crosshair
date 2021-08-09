@@ -39,7 +39,7 @@ body {
 #c {
   position: fixed;
 
-  background-image: url('/background.jpg');
+  background-image: url('background.jpg');
   background-position: center;
 
   top: 50%;
