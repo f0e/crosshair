@@ -107,23 +107,24 @@ class Control {
         break;
       }
       case 'colour': {
-        const colour = document.createElement('button');
-        colour.id = this.name;
-        colour.setAttribute('data-jscolor', `{ value: '${this.getValue()}' }`);
-        container.appendChild(colour);
+        const input = document.createElement('input');
+        input.id = this.name;
+        input.value = this.getValue();
+        input.setAttribute('data-jscolor', '{}');
+        container.appendChild(input);
 
         const label = document.createElement('label');
-        label.htmlFor = colour.id;
+        label.htmlFor = input.id;
         label.textContent = this.name;
-        container.insertBefore(label, colour);
+        container.insertBefore(label, input);
 
         // update variables
         const updateValue = () => {
-          this.setValue(colour.value);
+          this.setValue(input.value);
         };
 
-        colour.addEventListener('change', updateValue);
-        colour.addEventListener('input', updateValue);
+        input.addEventListener('change', updateValue);
+        input.addEventListener('input', updateValue);
         updateValue();
 
         break;
@@ -177,7 +178,6 @@ function zoom() {
   canvas.style.height = `${height}px`;
 
   const [x, y] = vars['aspect ratio'].split(':');
-  console.log(x, y);
   canvas.width = (canvasSize[1] / y) * x;
   canvas.height = canvasSize[1];
 
