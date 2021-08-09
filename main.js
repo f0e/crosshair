@@ -185,8 +185,6 @@ function zoom() {
 }
 
 function render() {
-  console.log('rendering');
-
   const ctx = canvas.getContext('2d');
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -198,8 +196,6 @@ function render() {
       if (!Number.isInteger(x)) x = Math.round(x);
       if (!Number.isInteger(y)) y = Math.round(y);
     }
-
-    console.log(x, y, w, h, colour);
 
     ctx.fillStyle = colour;
     ctx.fillRect(x, y, w, h);
