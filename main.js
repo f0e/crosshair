@@ -1,4 +1,10 @@
-const canvasSize = [3840, 2160]; // 4k
+const resolutions = {
+  '2160p': [3840, 2160],
+  '1440p': [2560, 1440],
+  '1080p': [1920, 1080],
+};
+
+let canvasSize = resolutions['1080p'];
 
 const canvas = document.querySelector('#c');
 canvas.imageSmoothingEnabled = false;
@@ -12,7 +18,6 @@ class Control {
     vars[this.name] = newValue;
     setTimeout(() => {
       zoom();
-      render();
       save();
     }, 0);
   }
@@ -172,18 +177,28 @@ function zoom() {
   const goalHeight = 1080;
   const padding = 50;
 
+  // set resolution
+  const res = vars['resolution'];
+  canvasSize = resolutions[res];
+
+  // zoom
   const height =
     goalHeight * (vars['zoom'] * (window.innerHeight / goalHeight)) - padding;
+
   canvas.style.width = `${(height / 9) * 16}px`;
   canvas.style.height = `${height}px`;
 
+  // aspect ratio
   const [x, y] = vars['aspect ratio'].split(':');
   canvas.width = (canvasSize[1] / y) * x;
   canvas.height = canvasSize[1];
 
+  // scale background
   canvas.style.backgroundSize = `${
     100 + (1 - canvas.width / canvasSize[0]) * 100
   }% ${(canvas.height / canvasSize[1]) * 100}%`;
+
+  render();
 }
 
 function render() {
@@ -261,6 +276,10 @@ new Control('gap', 'number', { min: -100, max: 100, defaultValue: 25 });
 new Control('length', 'number', { min: 1, max: 100, defaultValue: 15 });
 new Control('colour', 'colour', { defaultValue: '#00FF00' });
 new Control('sharp', 'checkbox', { defaultValue: true });
+new Control('resolution', 'dropdown', {
+  items: ['2160p', '1440p', '1080p'],
+  defaultValue: '1080p',
+});
 new Control('aspect ratio', 'dropdown', {
   items: ['16:9', '4:3', '16:10'],
   defaultValue: '16:9',
