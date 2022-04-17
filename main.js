@@ -23,7 +23,7 @@ class Control {
   }
 
   getValue() {
-    return vars[this.name] ? vars[this.name] : this.options.defaultValue;
+    return this.name in vars ? vars[this.name] : this.options.defaultValue;
   }
 
   createElement() {
@@ -209,27 +209,24 @@ function render() {
   const center = [canvas.width / 2, canvas.height / 2];
 
   const fillRect = (x, y, w, h, colour) => {
-    if (vars['sharp']) {
-      if (!Number.isInteger(x)) x = Math.round(x);
-      if (!Number.isInteger(y)) y = Math.round(y);
-    }
-
     ctx.fillStyle = colour;
     ctx.fillRect(x, y, w, h);
   };
 
   // x
+  const halfThickness = Math.floor(vars['thickness'] / 2);
+  const extraGap = vars['thickness'] % 2 == 0 ? 0 : 1;
   fillRect(
     center[0] - vars['length'] - vars['gap'],
-    center[1] - vars['thickness'] / 2,
+    center[1] - halfThickness,
     vars['length'],
     vars['thickness'],
     vars['colour']
   );
 
   fillRect(
-    center[0] + vars['gap'],
-    center[1] - vars['thickness'] / 2,
+    center[0] + vars['gap'] + extraGap,
+    center[1] - halfThickness,
     vars['length'],
     vars['thickness'],
     vars['colour']
@@ -237,7 +234,7 @@ function render() {
 
   // y
   fillRect(
-    center[0] - vars['thickness'] / 2,
+    center[0] - halfThickness,
     center[1] - vars['length'] - vars['gap'],
     vars['thickness'],
     vars['length'],
@@ -245,8 +242,8 @@ function render() {
   );
 
   fillRect(
-    center[0] - vars['thickness'] / 2,
-    center[1] + vars['gap'],
+    center[0] - halfThickness,
+    center[1] + vars['gap'] + extraGap,
     vars['thickness'],
     vars['length'],
     vars['colour']
@@ -269,13 +266,16 @@ function load() {
   if (jsonData) vars = JSON.parse(jsonData);
 }
 
+function reset() {
+  localStorage.removeItem('crosshair-vars');
+}
+
 load();
 
-new Control('thickness', 'number', { min: 1, max: 100, defaultValue: 5 });
-new Control('gap', 'number', { min: -100, max: 100, defaultValue: 25 });
+new Control('thickness', 'number', { min: 1, max: 25, defaultValue: 5 });
+new Control('gap', 'number', { min: 0, max: 100, defaultValue: 25 });
 new Control('length', 'number', { min: 1, max: 100, defaultValue: 15 });
 new Control('colour', 'colour', { defaultValue: '#00FF00' });
-new Control('sharp', 'checkbox', { defaultValue: true });
 new Control('resolution', 'dropdown', {
   items: ['2160p', '1440p', '1080p'],
   defaultValue: '1080p',
