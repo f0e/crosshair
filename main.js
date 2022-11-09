@@ -1,11 +1,3 @@
-const resolutions = {
-  '2160p': [3840, 2160],
-  '1440p': [2560, 1440],
-  '1080p': [1920, 1080],
-};
-
-let canvasSize = resolutions['1080p'];
-
 const canvas = document.querySelector('#c');
 canvas.imageSmoothingEnabled = false;
 
@@ -74,6 +66,29 @@ class Control {
         // update variables
         const updateValue = () => {
           this.setValue(parseFloat(input.value));
+        };
+
+        input.addEventListener('change', updateValue);
+        input.addEventListener('input', updateValue);
+        updateValue();
+
+        break;
+      }
+      case 'text': {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.id = this.name;
+        input.value = this.getValue();
+        container.appendChild(input);
+
+        const label = document.createElement('label');
+        label.htmlFor = input.id;
+        label.textContent = this.name;
+        container.insertBefore(label, input);
+
+        // update variables
+        const updateValue = () => {
+          this.setValue(input.value);
         };
 
         input.addEventListener('change', updateValue);
@@ -178,8 +193,7 @@ function zoom() {
   const padding = 50;
 
   // set resolution
-  const res = vars['resolution'];
-  canvasSize = resolutions[res];
+  const canvasSize = [parseInt(vars['width']), parseInt(vars['height'])];
 
   // zoom
   const height =
@@ -276,10 +290,8 @@ new Control('thickness', 'number', { min: 1, max: 25, defaultValue: 5 });
 new Control('gap', 'number', { min: 0, max: 100, defaultValue: 25 });
 new Control('length', 'number', { min: 1, max: 100, defaultValue: 15 });
 new Control('colour', 'colour', { defaultValue: '#00FF00' });
-new Control('resolution', 'dropdown', {
-  items: ['2160p', '1440p', '1080p'],
-  defaultValue: '1080p',
-});
+new Control('width', 'text', { defaultValue: 1920 });
+new Control('height', 'text', { defaultValue: 1080 });
 new Control('aspect ratio', 'dropdown', {
   items: ['16:9', '4:3', '16:10'],
   defaultValue: '16:9',
